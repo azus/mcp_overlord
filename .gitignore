@@ -1,0 +1,7 @@
+.vs/
+bin/
+obj/
+*.user
+artifacts/
+src/mcp_overlord/Native/win-x64/
+TestResults/

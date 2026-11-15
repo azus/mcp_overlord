@@ -1,0 +1,64 @@
+<Window x:Class="mcp_overlord.UI.ConnectionReportDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:diagnostics="clr-namespace:mcp_overlord.Diagnostics"
+        Title="Connection check"
+        Width="760"
+        Height="640"
+        MinWidth="560"
+        MinHeight="420"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource WindowBackgroundBrush}"
+        Foreground="{StaticResource PrimaryTextBrush}"
+        Icon="pack://application:,,,/mcp_overlord;component/Resources/Icons/app.ico">
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="Run again" Command="{Binding RunCommand}" IsEnabled="{Binding CanRun}" Style="{StaticResource ToolbarButton}" Margin="0,0,8,0"/>
+            <Button Content="Copy" Command="{Binding CopyCommand}" Style="{StaticResource ToolbarButton}" Margin="0,0,8,0"/>
+            <Button Content="Close" IsCancel="True"/>
+        </StackPanel>
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Top" Text="{Binding StatusText}" Margin="0,0,0,8" Foreground="{StaticResource MutedTextBrush}"/>
+            <TextBox DockPanel.Dock="Bottom"
+                     Height="220"
+                     Margin="0,8,0,0"
+                     Text="{Binding ReportText, Mode=OneWay}"
+                     IsReadOnly="True"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto"
+                     HorizontalScrollBarVisibility="Auto"
+                     FontFamily="Cascadia Mono, Consolas"/>
+            <ListBox ItemsSource="{Binding Steps}" BorderThickness="0" Background="Transparent">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,2">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="48" FontWeight="SemiBold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="FAIL"/>
+                                            <Setter Property="Foreground" Value="{StaticResource ErrorBrush}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static diagnostics:CheckStepStatus.Pass}">
+                                                    <Setter Property="Text" Value="PASS"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource SuccessBrush}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="{x:Static diagnostics:CheckStepStatus.Warning}">
+                                                    <Setter Property="Text" Value="WARN"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource WarningBrush}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                            <TextBlock Text="{Binding Detail}" TextWrapping="Wrap" Foreground="{StaticResource MutedTextBrush}" Margin="48,0,0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+    </DockPanel>
+</Window>

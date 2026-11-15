@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+
+  <!-- UpgradeCode must never change: MajorUpgrade relies on it to replace older versions. -->
+  <Package Name="MCP Overlord"
+           Manufacturer="game_automation_in_csharp"
+           Version="$(var.ProductVersion)"
+           UpgradeCode="EA1684D4-1935-4FF8-8193-BB8098476FA6"
+           Scope="perMachine"
+           Compressed="yes">
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+
+    <Icon Id="AppIcon.exe" SourceFile="$(var.AppIconPath)" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon.exe" />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="MCP Overlord" />
+    </StandardDirectory>
+
+    <ComponentGroup Id="ApplicationFiles" Directory="INSTALLFOLDER">
+      <Component Id="MainExecutableComponent">
+        <File Id="MainExecutable" Source="$(var.AppPublishDir)mcp_overlord.exe" KeyPath="yes" />
+        <ProgId Id="MCPOverlord.Configuration"
+                Description="MCP Overlord configuration"
+                Icon="MainExecutable"
+                IconIndex="0">
+          <Extension Id="overlord">
+            <Verb Id="open" Command="Open" Argument="--config &quot;%1&quot;" TargetFile="MainExecutable" />
+          </Extension>
+        </ProgId>
+        <!-- Recent .overlord files join this shortcut's jump list only when the ProgId carries the same id. -->
+        <RegistryValue Root="HKLM"
+                       Key="SOFTWARE\Classes\MCPOverlord.Configuration"
+                       Name="AppUserModelID"
+                       Type="string"
+                       Value="game_automation_in_csharp.MCPOverlord" />
+      </Component>
+
+      <!-- ICE43 requires a per-user registry key path for a non-advertised shortcut. -->
+      <Component Id="StartMenuShortcutComponent" Guid="B7E1C4A2-5D83-4F19-9A60-2C8E4B1D7F33" Directory="ProgramMenuFolder">
+        <Shortcut Id="StartMenuShortcut"
+                  Directory="ProgramMenuFolder"
+                  Name="MCP Overlord"
+                  Description="MCP server that controls Windows applications"
+                  Target="[INSTALLFOLDER]mcp_overlord.exe"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="AppIcon.exe"
+                  Advertise="no">
+          <ShortcutProperty Key="System.AppUserModel.ID" Value="game_automation_in_csharp.MCPOverlord" />
+        </Shortcut>
+        <RegistryValue Root="HKCU"
+                       Key="SOFTWARE\MCP Overlord"
+                       Name="StartMenuShortcut"
+                       Type="integer"
+                       Value="1"
+                       KeyPath="yes" />
+      </Component>
+
+      <Component Id="ProductCodeRegistry" Guid="6F2C8E14-9A57-4D3B-8C61-0E5B7A4D2F90" Bitness="always64">
+        <RegistryValue Root="HKLM"
+                       Key="SOFTWARE\MCP Overlord"
+                       Name="ProductCode"
+                       Type="string"
+                       Value="[ProductCode]"
+                       KeyPath="yes" />
+      </Component>
+
+      <Files Include="$(var.AppPublishDir)**">
+        <Exclude Files="$(var.AppPublishDir)mcp_overlord.exe" />
+      </Files>
+    </ComponentGroup>
+
+    <Feature Id="Main" Title="MCP Overlord" Level="1">
+      <ComponentGroupRef Id="ApplicationFiles" />
+    </Feature>
+
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
+
+    <!-- Runs after the files and the product code are committed, as the installing user. -->
+    <CustomAction Id="RegisterShellJumpList"
+                  FileRef="MainExecutable"
+                  ExeCommand="--register-shell"
+                  Return="ignore"
+                  Impersonate="yes" />
+
+    <InstallExecuteSequence>
+      <Custom Action="RegisterShellJumpList" After="InstallFinalize" Condition="NOT (REMOVE~=&quot;ALL&quot;)" />
+    </InstallExecuteSequence>
+
+    <!-- Skip the license page of WixUI_InstallDir. -->
+    <UI>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2" Condition="1" />
+      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2" Condition="1" />
+    </UI>
+
+  </Package>
+</Wix>

@@ -1,0 +1,20 @@
+<Window x:Class="mcp_overlord.UI.PromptDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MCP Overlord"
+        Width="520"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{StaticResource WindowBackgroundBrush}"
+        Foreground="{StaticResource PrimaryTextBrush}"
+        Icon="pack://application:,,,/Resources/Icons/app.ico">
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button x:Name="DiscardButton" Content="Don't save" Click="OnDiscard" Background="{StaticResource RaisedBrush}" Margin="0,0,8,0" Visibility="Collapsed"/>
+            <Button x:Name="CancelButton" Content="Cancel" Click="OnCancel" IsCancel="True" Background="{StaticResource RaisedBrush}" Margin="0,0,8,0"/>
+            <Button x:Name="ConfirmButton" Content="OK" Click="OnConfirm" IsDefault="True"/>
+        </StackPanel>
+        <TextBlock x:Name="MessageText" TextWrapping="Wrap"/>
+    </DockPanel>
+</Window>

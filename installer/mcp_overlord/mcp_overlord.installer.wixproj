@@ -1,0 +1,18 @@
+<Project Sdk="WixToolset.Sdk/5.0.2">
+
+  <PropertyGroup>
+    <OutputName>mcp_overlord-$(ProductVersion)-win-x64</OutputName>
+    <OutputType>Package</OutputType>
+    <InstallerPlatform>x64</InstallerPlatform>
+    <ProductVersion Condition="'$(ProductVersion)' == ''">1.0.0</ProductVersion>
+    <AppPublishDir Condition="'$(AppPublishDir)' == ''">$(MSBuildThisFileDirectory)..\..\artifacts\publish\mcp_overlord\</AppPublishDir>
+    <AppPublishFolder>$([MSBuild]::EnsureTrailingSlash('$(AppPublishDir)'))</AppPublishFolder>
+    <OutputPath Condition="'$(InstallerOutputDirectory)' != ''">$([MSBuild]::EnsureTrailingSlash('$(InstallerOutputDirectory)'))</OutputPath>
+    <AppIconPath>$(MSBuildThisFileDirectory)..\..\src\mcp_overlord\Resources\Icons\app.ico</AppIconPath>
+    <DefineConstants>ProductVersion=$(ProductVersion);AppPublishDir=$(AppPublishFolder);AppIconPath=$(AppIconPath)</DefineConstants>  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="5.0.2" />
+  </ItemGroup>
+
+</Project>

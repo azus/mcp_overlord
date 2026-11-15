@@ -1,0 +1,125 @@
+<Window x:Class="mcp_overlord.UI.ServerSettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:svgc="clr-namespace:SharpVectors.Converters;assembly=SharpVectors.Converters.Wpf"
+        Title="Server settings"
+        Width="680"
+        Height="700"
+        MinWidth="520"
+        MinHeight="460"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource WindowBackgroundBrush}"
+        Foreground="{StaticResource PrimaryTextBrush}"
+        Icon="pack://application:,,,/mcp_overlord;component/Resources/Icons/app.ico">
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="Cancel" Click="OnCancel" IsCancel="True" Style="{StaticResource ToolbarButton}" Margin="0,0,8,0"/>
+            <Button Content="OK" Click="OnOk" IsDefault="True"/>
+        </StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Text="{Binding ListenerNote}" Foreground="{StaticResource MutedTextBrush}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+                <TextBlock Text="A checked field is saved, even when it is empty. An empty optional field is treated as not set."
+                           Foreground="{StaticResource MutedTextBrush}" TextWrapping="Wrap" Margin="0,0,0,12"/>
+                <TextBlock Text="{Binding WarningText}" Foreground="{StaticResource WarningBrush}" TextWrapping="Wrap" Margin="0,0,0,8"
+                           Visibility="{Binding WarningText, Converter={StaticResource StringToVisibility}}"/>
+                <TextBlock Text="{Binding ErrorText}" Style="{StaticResource FieldError}"
+                           Visibility="{Binding ErrorText, Converter={StaticResource StringToVisibility}}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="Save" IsChecked="{Binding IncludeHttpPort}" Margin="0,4"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="HTTP port" Style="{StaticResource FieldLabel}"/>
+                    <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding HttpPortText, UpdateSourceTrigger=PropertyChanged}" Margin="0,4"
+                             Opacity="{Binding IncludeHttpPort, Converter={StaticResource IncludeOpacity}}"/>
+
+                    <CheckBox Grid.Row="1" Grid.Column="0" Content="Save" IsChecked="{Binding IncludeHttpsPort}" Margin="0,4"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="HTTPS port" Style="{StaticResource FieldLabel}"/>
+                    <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding HttpsPortText, UpdateSourceTrigger=PropertyChanged}" Margin="0,4"
+                             Opacity="{Binding IncludeHttpsPort, Converter={StaticResource IncludeOpacity}}"/>
+
+                    <CheckBox Grid.Row="2" Grid.Column="0" Content="Save" IsChecked="{Binding IncludeEnableHttps}" Margin="0,4"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="HTTPS" Style="{StaticResource FieldLabel}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="2" Content="Enable HTTPS" IsChecked="{Binding EnableHttps}" Margin="0,4"
+                              Opacity="{Binding IncludeEnableHttps, Converter={StaticResource IncludeOpacity}}"/>
+
+                    <CheckBox Grid.Row="3" Grid.Column="0" Content="Save" IsChecked="{Binding IncludeBindAddress}" Margin="0,4"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="Bind address" Style="{StaticResource FieldLabel}"/>
+                    <ComboBox Grid.Row="3" Grid.Column="2" Margin="0,4"
+                              IsEditable="True"
+                              ItemsSource="{Binding BindAddressChoices}"
+                              Text="{Binding BindAddress, UpdateSourceTrigger=PropertyChanged}"
+                              Opacity="{Binding IncludeBindAddress, Converter={StaticResource IncludeOpacity}}"/>
+
+                    <CheckBox Grid.Row="4" Grid.Column="0" Content="Save" IsChecked="{Binding IncludeApiKey}" Margin="0,4"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="API key" Style="{StaticResource FieldLabel}"/>
+                    <DockPanel Grid.Row="4" Grid.Column="2" Margin="0,4"
+                               Opacity="{Binding IncludeApiKey, Converter={StaticResource IncludeOpacity}}">
+                        <Button DockPanel.Dock="Right" Content="{Binding ApiKeyVisibilityText}" Click="OnToggleApiKey" Style="{StaticResource ToolbarButton}"/>
+                        <Button DockPanel.Dock="Right" Content="Generate" Click="OnGenerate" Style="{StaticResource ToolbarButton}"/>
+                        <Grid>
+                            <TextBox Text="{Binding ApiKey, UpdateSourceTrigger=PropertyChanged}"
+                                     Visibility="{Binding ShowApiKey, Converter={StaticResource BoolToVisibility}}"/>
+                            <PasswordBox x:Name="ApiKeyBox"
+                                         PasswordChanged="OnApiKeyPasswordChanged"
+                                         Visibility="{Binding ShowApiKey, Converter={StaticResource InverseBoolToVisibility}}"/>
+                        </Grid>
+                    </DockPanel>
+
+                    <CheckBox Grid.Row="5" Grid.Column="0" Content="Save" IsChecked="{Binding IncludeCertificatePath}" Margin="0,4"/>
+                    <TextBlock Grid.Row="5" Grid.Column="1" Text="Certificate" Style="{StaticResource FieldLabel}"/>
+                    <DockPanel Grid.Row="5" Grid.Column="2" Margin="0,4">
+                        <Button DockPanel.Dock="Right" Click="OnBrowseCertificate" Style="{StaticResource IconButton}" ToolTip="Browse for a certificate" Margin="8,0,0,0">
+                            <svgc:SvgViewbox Width="{Binding FontSize, RelativeSource={RelativeSource AncestorType=Button}}"
+                                             Height="{Binding FontSize, RelativeSource={RelativeSource AncestorType=Button}}"
+                                             Source="pack://application:,,,/mcp_overlord;component/Resources/Icons/folder.svg"/>
+                        </Button>
+                        <TextBox Text="{Binding CertificatePath, UpdateSourceTrigger=PropertyChanged}"
+                                 Opacity="{Binding IncludeCertificatePath, Converter={StaticResource IncludeOpacity}}"/>
+                    </DockPanel>
+
+                    <CheckBox Grid.Row="6" Grid.Column="0" Content="Save" IsChecked="{Binding IncludeCertificatePassword}" Margin="0,4"/>
+                    <TextBlock Grid.Row="6" Grid.Column="1" Text="Certificate password" Style="{StaticResource FieldLabel}"/>
+                    <PasswordBox x:Name="CertificatePasswordBox" Grid.Row="6" Grid.Column="2" Margin="0,4"
+                                 PasswordChanged="OnCertificatePasswordChanged"
+                                 Opacity="{Binding IncludeCertificatePassword, Converter={StaticResource IncludeOpacity}}"/>
+
+                    <CheckBox Grid.Row="7" Grid.Column="0" Content="Save" IsChecked="{Binding IncludeHostNames}" VerticalAlignment="Top" Margin="0,8,0,0"/>
+                    <TextBlock Grid.Row="7" Grid.Column="1" Text="Host names" Style="{StaticResource FieldLabel}" VerticalAlignment="Top" Margin="8,8,8,0"/>
+                    <TextBox Grid.Row="7" Grid.Column="2" Margin="0,4"
+                             Text="{Binding HostNamesText, UpdateSourceTrigger=PropertyChanged}"
+                             AcceptsReturn="True"
+                             MinHeight="72"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto"
+                             ToolTip="One DNS name or IP address per line"
+                             Opacity="{Binding IncludeHostNames, Converter={StaticResource IncludeOpacity}}"/>
+
+                    <CheckBox Grid.Row="8" Grid.Column="0" Content="Save" IsChecked="{Binding IncludeLogRetention}" Margin="0,4"/>
+                    <TextBlock Grid.Row="8" Grid.Column="1" Text="Log retention" Style="{StaticResource FieldLabel}"/>
+                    <StackPanel Grid.Row="8" Grid.Column="2" Margin="0,4">
+                        <TextBox Text="{Binding LogRetentionText, UpdateSourceTrigger=PropertyChanged}"
+                                 ToolTip="{Binding LogRetentionNote}"
+                                 Opacity="{Binding IncludeLogRetention, Converter={StaticResource IncludeOpacity}}"/>
+                        <TextBlock Text="{Binding LogRetentionNote}" Foreground="{StaticResource MutedTextBrush}" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Exe</OutputType>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <NoWarn>$(NoWarn);xUnit1051;WFO0003</NoWarn>
+    <RootNamespace>mcp_overlord.tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="System.IO" />
+    <Using Include="System.Net.Http" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1" />
+    <PackageReference Include="xunit.v3" Version="4.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\mcp_overlord\mcp_overlord.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Fixtures\config_loader_sample.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="CertificateStoreTests.cs" />
+    <Compile Update="ConfigEditorTests.cs" />
+    <Compile Update="EditorDesktopTests.cs" />
+    <Compile Update="EditorViewModelTests.cs" />
+    <Compile Update="ConfigTests.cs" />
+    <Compile Update="JumpListTests.cs" />
+    <Compile Update="DiagnosticsAndLogTests.cs" />
+    <Compile Update="DesktopTests.cs" />
+    <Compile Update="Fakes.cs" />
+    <Compile Update="HttpIntegrationTests.cs" />
+    <Compile Update="ServiceTests.cs" />
+    <Compile Update="UiTests.cs" />
+    <Compile Update="WindowPlacementTests.cs" />
+  </ItemGroup>
+
+  <Target Name="CopySnapEncoder" AfterTargets="Build">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\..\src\mcp_overlord\Native\win-x64\snapenc.dll" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" Condition="Exists('$(MSBuildThisFileDirectory)..\..\src\mcp_overlord\Native\win-x64\snapenc.dll')" />
+  </Target>
+
+</Project>

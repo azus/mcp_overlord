@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game-automation.local/schemas/game-mcp-control/config-v1.json",
+  "title": "mcp_overlord configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "applications"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "server": { "$ref": "#/$defs/server" },
+    "applications": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/application" }
+    }
+  },
+  "$defs": {
+    "server": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "httpPort": { "type": "integer", "minimum": 1, "maximum": 65535, "default": 5000 },
+        "httpsPort": { "type": "integer", "minimum": 1, "maximum": 65535, "default": 5001 },
+        "enableHttps": { "type": "boolean", "default": false },
+        "certificate": { "$ref": "#/$defs/certificate" },
+        "bindAddress": { "type": "string", "default": "127.0.0.1" },
+        "apiKey": {
+          "anyOf": [
+            { "type": "string", "maxLength": 0 },
+            { "type": "string", "minLength": 16 }
+          ]
+        },
+        "logRetention": { "type": "integer", "minimum": 100, "maximum": 1000000, "default": 1000 }
+      }
+    },
+    "certificate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string" },
+        "password": { "type": "string" },
+        "hostNames": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "application": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "executable", "windowTitle"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "executable": { "type": "string", "minLength": 1 },
+        "parameters": { "type": "string" },
+        "workingDirectory": { "type": "string" },
+        "windowTitle": { "type": "string", "minLength": 1 },
+        "processName": { "type": "string" },
+        "description": { "type": "string" },
+        "clickBackend": { "enum": ["mouseEvent", "sendInput"], "default": "mouseEvent" }
+      }
+    }
+  }
+}

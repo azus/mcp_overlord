@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "server": {
+    "bindAddress": "127.0.0.1",
+    "httpPort": 5000,
+    "enableHttps": false
+  },
+  "applications": [
+    {
+      "name": "Magicraid Starter",
+      "executable": "C:\\Program Files (x86)\\InfiniteMagicraid\\Launcher.exe",
+      "windowTitle": "InfiniteMagicRaid"
+    },
+    {
+      "name": "Infinite Magicraid",
+      "executable": "C:\\Program Files (x86)\\InfiniteMagicraid\\Games\\InfiniteMagicraid\\InfiniteMagicraid.exe",
+      "parameters": "-logFile \"C:/Program Files (x86)/InfiniteMagicraid/output_log.txt\" gclid=none screenWidth=2560 screenHeight=1440 appName=InfiniteMagicraid",
+      "workingDirectory": "C:\\Program Files (x86)\\InfiniteMagicraid\\Games\\InfiniteMagicraid",
+      "windowTitle": "InfiniteMagicRaid",
+      "processName": "InfiniteMagicraid",
+      "clickBackend": "sendInput"
+    }
+  ]
+}

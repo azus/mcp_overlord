@@ -1,0 +1,156 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Resources\Icons\app.ico</ApplicationIcon>
+    <RootNamespace>mcp_overlord</RootNamespace>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\automation_util\automation_util.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JsonSchema.Net" Version="9.4.0" />
+    <PackageReference Include="ModelContextProtocol.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="SharpVectors.Wpf" Version="1.8.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\config.schema.json">
+      <LogicalName>mcp_overlord.Resources.config.schema.json</LogicalName>
+    </EmbeddedResource>
+    <Resource Include="Resources\Icons\*.svg" />
+    <Resource Include="Resources\Icons\app.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="mcp_overlord.tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="App.xaml.cs" />
+    <Compile Update="AppComposition.cs" />
+    <Compile Update="AssemblyInfo.cs" />
+    <Compile Update="GlobalUsings.cs" />
+    <Compile Update="MainWindow.xaml.cs" />
+    <Compile Update="Configuration\ConfigDraft.cs" />
+    <Compile Update="Configuration\ConfigDraftSerializer.cs" />
+    <Compile Update="Configuration\ConfigEditorSession.cs" />
+    <Compile Update="Configuration\ConfigFile.cs" />
+    <Compile Update="Configuration\ConfigLoader.cs" />
+    <Compile Update="Configuration\ConfigModels.cs" />
+    <Compile Update="Configuration\ConfigStore.cs" />
+    <Compile Update="Diagnostics\ConnectionDiagnostics.cs" />
+    <Compile Update="Diagnostics\IDiagnosticProbes.cs" />
+    <Compile Update="Diagnostics\McpReplyParser.cs" />
+    <Compile Update="Diagnostics\ProbeModels.cs" />
+    <Compile Update="Diagnostics\SystemDiagnosticProbes.cs" />
+    <Compile Update="Hosting\EndpointFormatter.cs" />
+    <Compile Update="Hosting\TrafficCaptureMiddleware.cs" />
+    <Compile Update="Hosting\McpHost.cs" />
+    <Compile Update="Hosting\SelfSignedCertificateStore.cs" />
+    <Compile Update="Hosting\RequestGuardMiddleware.cs" />
+    <Compile Update="Hosting\ServerInstructions.cs" />
+    <Compile Update="Hosting\ServerStateMachine.cs" />
+    <Compile Update="Hosting\ToolCallLog.cs" />
+    <Compile Update="Logging\ComputedLineList.cs" />
+    <Compile Update="Logging\HexDumpFormatter.cs" />
+    <Compile Update="Logging\HttpExchange.cs" />
+    <Compile Update="Logging\JsonFormatter.cs" />
+    <Compile Update="Logging\LogBuffer.cs" />
+    <Compile Update="Logging\LogDetail.cs" />
+    <Compile Update="Logging\LogEntry.cs" />
+    <Compile Update="Logging\LogPayloads.cs" />
+    <Compile Update="Logging\TextLineList.cs" />
+    <Compile Update="Logging\StatsCounter.cs" />
+    <Compile Update="Services\AppLauncher.cs" />
+    <Compile Update="Services\CommandLineSplitter.cs" />
+    <Compile Update="Services\ElevationService.cs" />
+    <Compile Update="Services\InstallationInfo.cs" />
+    <Compile Update="Services\CaptureService.cs" />
+    <Compile Update="Services\ClickBackends.cs" />
+    <Compile Update="Services\CoordinateMapper.cs" />
+    <Compile Update="Services\FocusHelper.cs" />
+    <Compile Update="Services\InputGate.cs" />
+    <Compile Update="Services\InputService.cs" />
+    <Compile Update="Services\IntegrityChecker.cs" />
+    <Compile Update="Services\KeyNameMap.cs" />
+    <Compile Update="Services\PlatformContracts.cs" />
+    <Compile Update="Services\ToolErrors.cs" />
+    <Compile Update="Services\WindowFrameGeometry.cs" />
+    <Compile Update="Services\WindowLocator.cs" />
+    <Compile Update="Services\Native\Win32Platform.cs" />
+    <Compile Update="Services\Native\NativeStoredPng.cs" />
+    <Compile Update="Services\Native\FastWindowSnapshot.cs" />
+    <Compile Update="Services\Native\WindowOverlap.cs" />
+    <Compile Update="Services\Native\WindowVisualCapture.cs" />
+    <Compile Update="Services\Native\Win32ShortcutReader.cs" />
+    <Compile Update="Services\Native\Win32WindowInspector.cs" />
+    <Compile Update="Services\ShortcutReader.cs" />
+    <Compile Update="Services\WindowInspector.cs" />
+    <Compile Update="Startup\CommandLineParser.cs" />
+    <Compile Update="Shell\AppUserModel.cs" />
+    <Compile Update="Shell\IRecentFileRegistry.cs" />
+    <Compile Update="Shell\JumpListBuilder.cs" />
+    <Compile Update="Shell\ShellRecentFileRegistry.cs" />
+    <Compile Update="Shell\WpfJumpListPublisher.cs" />
+    <Compile Update="Tools\ApplicationTools.cs" />
+    <Compile Update="Tools\CaptureTools.cs" />
+    <Compile Update="Tools\InputTools.cs" />
+    <Compile Update="Tools\SessionTools.cs" />
+    <Compile Update="Tools\ToolResponses.cs" />
+    <Compile Update="Tools\WindowTools.cs" />
+    <Compile Update="UI\ApplicationEditorDialog.xaml.cs" />
+    <Compile Update="UI\ApplicationEditorViewModel.cs" />
+    <Compile Update="UI\ConnectionReportDialog.xaml.cs" />
+    <Compile Update="UI\ConnectionReportViewModel.cs" />
+    <Compile Update="UI\DarkTitleBar.cs" />
+    <Compile Update="UI\ElevatedFileDrop.cs" />
+    <Compile Update="UI\HelpContent.cs" />
+    <Compile Update="UI\Interaction.cs" />
+    <Compile Update="UI\LogDetailViewModel.cs" />
+    <Compile Update="UI\MainViewModel.cs" />
+    <Compile Update="UI\ParentConsole.cs" />
+    <Compile Update="UI\PromptDialog.xaml.cs" />
+    <Compile Update="UI\ServerSettingsDialog.xaml.cs" />
+    <Compile Update="UI\ServerSettingsViewModel.cs" />
+    <Compile Update="UI\RelayCommand.cs" />
+    <Compile Update="UI\StatsText.cs" />
+    <Compile Update="UI\Placement\IMonitorLayout.cs" />
+    <Compile Update="UI\Placement\LegacyBoundsConverter.cs" />
+    <Compile Update="UI\Placement\MonitorInfo.cs" />
+    <Compile Update="UI\Placement\PixelRect.cs" />
+    <Compile Update="UI\Placement\Win32MonitorLayout.cs" />
+    <Compile Update="UI\Placement\WindowBoundsClamp.cs" />
+    <Compile Update="UI\Placement\WindowPlacementBinder.cs" />
+    <Compile Update="UI\UiSettingsStore.cs" />
+    <Compile Update="UI\ValueConverters.cs" />
+    <Compile Update="UI\WindowHighlightOverlay.cs" />
+    <Compile Update="UI\WpfInteraction.cs" />
+  </ItemGroup>
+
+  <Target Name="BuildSnapEncoder" BeforeTargets="BeforeBuild" Inputs="$(MSBuildThisFileDirectory)Native\snap.cpp;$(MSBuildThisFileDirectory)Native\fpng.cpp;$(MSBuildThisFileDirectory)Native\fpng.h;$(MSBuildThisFileDirectory)Native\build-snapenc.cmd" Outputs="$(MSBuildThisFileDirectory)Native\win-x64\snapenc.dll">
+    <Exec Command="&quot;$(MSBuildThisFileDirectory)Native\build-snapenc.cmd&quot;" />
+  </Target>
+
+  <Target Name="CopySnapEncoder" AfterTargets="Build">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)Native\win-x64\snapenc.dll" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" Condition="Exists('$(MSBuildThisFileDirectory)Native\win-x64\snapenc.dll')" />
+  </Target>
+
+  <Target Name="CopySnapEncoderPublish" AfterTargets="Publish">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)Native\win-x64\snapenc.dll" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" Condition="Exists('$(MSBuildThisFileDirectory)Native\win-x64\snapenc.dll')" />
+  </Target>
+
+</Project>
