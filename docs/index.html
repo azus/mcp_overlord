@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MCP Overlord</title>
+  <meta name="description" content="Windows desktop MCP server: screenshots plus mouse and keyboard input into configured windows.">
+  <link rel="canonical" href="https://azus.github.io/mcp_overlord/">
+  <meta property="og:title" content="MCP Overlord">
+  <meta property="og:description" content="Windows desktop MCP server: screenshots plus mouse and keyboard input into configured windows.">
+  <meta property="og:url" content="https://azus.github.io/mcp_overlord/">
+  <meta property="og:type" content="website">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #121418;
+      --panel: #1b1f27;
+      --text: #e7e4dc;
+      --muted: #a8a396;
+      --line: #2e333d;
+      --accent: #e8a54b;
+      --accent-ink: #1a140c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 18px/1.55 Georgia, "Iowan Old Style", Palatino, "Palatino Linotype", serif;
+    }
+    a { color: var(--accent); }
+    a:hover { text-decoration: none; }
+    header, main, footer {
+      width: min(42rem, calc(100% - 2.5rem));
+      margin-inline: auto;
+    }
+    header { padding: 4.5rem 0 1.5rem; }
+    h1 {
+      margin: 0 0 0.35rem;
+      font-size: 2.6rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .tagline {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.25rem;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
+    .button, .button-secondary {
+      display: inline-block;
+      padding: 0.55rem 0.95rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font: 600 0.95rem/1.2 "Segoe UI", sans-serif;
+    }
+    .button { background: var(--accent); color: var(--accent-ink); }
+    .button-secondary { border: 1px solid var(--line); color: var(--text); }
+    main section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.25rem 1.4rem 1.4rem;
+      margin: 1rem 0;
+    }
+    h2 {
+      margin: 0 0 0.6rem;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+    p { margin: 0.6rem 0; }
+    ul { margin: 0.6rem 0; padding-left: 1.2rem; }
+    li + li { margin-top: 0.35rem; }
+    code, pre {
+      font-family: Consolas, "Cascadia Mono", "Segoe UI Mono", monospace;
+      font-size: 0.86rem;
+    }
+    code {
+      background: #10131a;
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+    }
+    pre {
+      overflow-x: auto;
+      background: #10131a;
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      line-height: 1.45;
+    }
+    .tools { color: var(--muted); }
+    footer {
+      padding: 0.5rem 0 3rem;
+      color: var(--muted);
+      font: 0.95rem/1.5 "Segoe UI", sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MCP Overlord</h1>
+    <p class="tagline">Give your AI hands. Supervise accordingly.</p>
+    <div class="actions">
+      <a class="button" href="https://github.com/azus/mcp_overlord/releases/download/release_1/mcp_overlord-1.0.0-win-x64.msi">Download the installer</a>
+      <a class="button-secondary" href="https://github.com/azus/mcp_overlord">View the repository</a>
+    </div>
+  </header>
+  <main>
+    <section>
+      <h2>What it is</h2>
+      <p>MCP Overlord is a Windows desktop app that hosts an <a href="https://modelcontextprotocol.io">MCP</a> server. A client such as Cursor can see a window named in a config file, take a screenshot of it, and send mouse and keyboard input. The usual target is a game. The model decides what to do. This program carries it out, then reports what happened.</p>
+      <p>It speaks MCP over HTTP on loopback, at <code>http://127.0.0.1:5000/mcp</code> with the default config. Install the MSI, load a <code>.overlord</code> file, start the server from the window, and point the client at that URL. 64-bit Windows 10 or 11. <a href="https://github.com/azus/mcp_overlord/blob/main/LICENSE">MIT license</a>.</p>
+    </section>
+    <section>
+      <h2>What it does</h2>
+      <ul>
+        <li>Takes a screenshot of a configured window and hands the image back to the model. Later clicks use pixels of that image, with the origin at the top left of the window.</li>
+        <li>Moves the mouse, clicks, scrolls, presses keys, and types text into that window. The window is focused first.</li>
+        <li>Finds the window from its title, process name, or executable, and can launch the executable listed in the config.</li>
+        <li>Shows a small dark window with start and stop, a live log, and counters, so you can watch the session.</li>
+      </ul>
+      <p class="tools">Tools: <code>list_applications</code>, <code>get_application_description</code>, <code>launch_application</code>, <code>find_window</code>, <code>focus_window</code>, <code>take_screenshot</code>, <code>mouse_move</code>, <code>mouse_click</code>, <code>mouse_down</code>, <code>mouse_up</code>, <code>mouse_scroll</code>, <code>key_press</code>, <code>key_down</code>, <code>key_up</code>, <code>type_text</code>, <code>is_locked</code>, and <code>lock</code>.</p>
+    </section>
+    <section>
+      <h2>Connect a client</h2>
+      <p>Cursor on the same machine, with no API key:</p>
+      <pre><code>{
+  "mcpServers": {
+    "game-control": {
+      "url": "http://127.0.0.1:5000/mcp"
+    }
+  }
+}</code></pre>
+      <p>The default listener is <code>127.0.0.1</code>. Other machines cannot reach it. Treat the endpoint as a keyboard that happens to speak HTTP.</p>
+    </section>
+    <section>
+      <h2>Install</h2>
+      <p>The MSI for 64-bit Windows 10 or 11 is attached to <a href="https://github.com/azus/mcp_overlord/releases/tag/release_1">release_1</a>. The package carries the runtime, so the machine does not need the .NET SDK. The installer adds a Start menu shortcut named MCP Overlord and registers the <code>.overlord</code> extension.</p>
+      <p>Building from source is documented in the <a href="https://github.com/azus/mcp_overlord#build-the-installer">README</a>. The behavior contract, including every argument, is the <a href="https://github.com/azus/mcp_overlord/blob/main/doc/mcp_overlord_design.md">design document</a>.</p>
+    </section>
+  </main>
+  <footer>
+    <a href="https://github.com/azus/mcp_overlord">github.com/azus/mcp_overlord</a>
+  </footer>
+</body>
+</html>

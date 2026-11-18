@@ -12,6 +12,8 @@ Use these on every form. A site-specific section below only adds fields that dif
 
 **Name:** MCP Overlord
 
+**Website:** https://azus.github.io/mcp_overlord
+
 **Repository:** https://github.com/azus/mcp_overlord
 
 **Release page:** https://github.com/azus/mcp_overlord/releases/tag/release_1
@@ -162,7 +164,7 @@ You own the repo, so the other path is the market CLI. It needs Node.js 22 or ne
   "authorUrl": "https://github.com/azus",
   "category": "tools",
   "description": "Windows desktop MCP server: screenshots plus mouse and keyboard input into configured windows.",
-  "homepage": "https://github.com/azus/mcp_overlord",
+  "homepage": "https://azus.github.io/mcp_overlord",
   "identifier": "azus-mcp-overlord",
   "name": "MCP Overlord",
   "tags": ["windows", "automation", "screenshot", "mouse", "keyboard", "gaming", "desktop"],

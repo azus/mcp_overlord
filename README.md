@@ -2,6 +2,8 @@
 
 Give your AI hands. Supervise accordingly.
 
+Project site: https://azus.github.io/mcp_overlord
+
 MCP Overlord is a Windows desktop app that hosts an [MCP](https://modelcontextprotocol.io) server. A client such as Cursor, or a Grok bot, can see a window you named in a config file, take a screenshot of it, and send mouse and keyboard input. The usual target is a game. The model decides what to do. This program carries it out, then reports what happened.
 
 ```mermaid
@@ -228,6 +230,7 @@ installer/mcp_overlord/    WiX project for the MSI
 dev/                       requirement, installer, and debug scripts
 doc/mcp_overlord_design.md behavior contract
 doc/publishing.md          text for directory submissions
+docs/                      project site published with GitHub Pages
 ```
 
 The solution is [dev/game_automation_in_csharp.sln](dev/game_automation_in_csharp.sln).
