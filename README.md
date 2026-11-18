@@ -38,6 +38,14 @@ It will not play the game for you. Something else might. This program only moves
 
 This project was vibe coded. Most of the implementation came from prompting an AI coding assistant, working from a written design, with tests beside it and a human reading the result. Read the parts you care about before you point it at a save file you would miss.
 
+## Install
+
+The MSI for 64-bit Windows 10 or 11 is [mcp_overlord-1.0.0-win-x64.msi](https://github.com/azus/mcp_overlord/releases/download/release_1/mcp_overlord-1.0.0-win-x64.msi), attached to the [release_1](https://github.com/azus/mcp_overlord/releases/tag/release_1) release.
+
+The package carries the runtime, so the machine does not need the .NET SDK. The installer adds a Start menu shortcut named MCP Overlord and registers the `.overlord` extension.
+
+Glama badge, once the listing exists: `[![azus/mcp_overlord MCP server](https://glama.ai/mcp/servers/azus/mcp_overlord/badges/score.svg)](https://glama.ai/mcp/servers/azus/mcp_overlord)`
+
 ## Requirements
 
 A 64-bit edition of Windows 10 or 11.
@@ -219,6 +227,7 @@ tests/                     unit tests
 installer/mcp_overlord/    WiX project for the MSI
 dev/                       requirement, installer, and debug scripts
 doc/mcp_overlord_design.md behavior contract
+doc/publishing.md          text for directory submissions
 ```
 
 The solution is [dev/game_automation_in_csharp.sln](dev/game_automation_in_csharp.sln).
